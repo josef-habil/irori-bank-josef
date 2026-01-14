@@ -1,0 +1,11 @@
+spring:
+    application:
+        name=irori-bank-josef
+
+    datasource:
+        url= jdbc:postgresql://localhost:5432/irori
+        username= postgres
+        password= secret
+    jpa:
+        hibernate:
+                ddl-auto= update
