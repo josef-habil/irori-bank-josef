@@ -3,12 +3,14 @@ package com.example.iroribankjosef.api.customer.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 
-import java.util.UUID;
 
 public class CustomerResponse {
 
-    @JsonProperty("customer_id")
-    private UUID customerId;
+    @JsonProperty("id")
+    private Long id;
+
+    @JsonProperty("customerNumber")
+    private String CustomerNumber;
 
     @JsonProperty("name")
     private String name;
@@ -19,44 +21,43 @@ public class CustomerResponse {
 
     public CustomerResponse () {}
 
-    public CustomerResponse(
-            @JsonProperty("customer_id") UUID customerId,
-            @JsonProperty("name") String name,
-            @JsonProperty("email") String email
-    ) {
 
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
-
+    public Long getCustomerId() {
+        return id;
     }
 
-    @JsonProperty("customer_id")
-    public UUID getCustomerId() {
-        return customerId;
+
+    public void setCustomerId(Long id) {
+        this.id = id;
     }
 
-    @JsonProperty("customer_id")
-    public void setCustomerId(UUID customerId) {
-        this.customerId = customerId;
-    }
-    @JsonProperty("name")
     public String getName() {
         return name;
     }
 
-    @JsonProperty("name")
+
     public void setName(String name) {
         this.name = name;
     }
 
-    @JsonProperty("email")
+
     public String getEmail() {
         return email;
     }
 
-    @JsonProperty("email")
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setId(Long id) {
+    }
+
+    public String getCustomerNumber() {
+        return CustomerNumber;
+    }
+
+    public void setCustomerNumber(String customerNumber) {
+        CustomerNumber = customerNumber;
     }
 }

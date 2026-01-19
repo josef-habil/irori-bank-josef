@@ -1,11 +1,10 @@
 package com.example.iroribankjosef.domain.account;
 
-import com.example.iroribankjosef.domain.customer.Customer;
+import com.example.iroribankjosef.domain.user.customer.Customer;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "accounts")
@@ -13,35 +12,34 @@ import java.util.UUID;
 public class Account {
 
     @Id
-    @Column(name = "account_id", columnDefinition = "uuid")
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "account_number", nullable = false, unique = true, length = 50)
+    @Column(nullable = false, unique = true, length = 50)
     private String accountNumber;
 
-    @Column(name = "balance", nullable = false)
+    @Column(nullable = false)
     private BigDecimal balance = BigDecimal.ZERO;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(nullable = false)
     private AccountStatus status = AccountStatus.ACTIVE;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public Account (){}
+    protected Account (){}
 
-    public Account(String accountNumber, Customer customer) {
+    /*public Account(String accountNumber, Customer customer) {
         this.accountNumber = accountNumber;
         this.customer = customer;
-    }
+    }*/
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
@@ -65,7 +63,7 @@ public class Account {
         return createdAt;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

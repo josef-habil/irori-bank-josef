@@ -3,21 +3,19 @@ package com.example.iroribankjosef.api.customer;
 
 import com.example.iroribankjosef.api.customer.dto.CustomerRequest;
 import com.example.iroribankjosef.api.customer.dto.CustomerResponse;
-import com.example.iroribankjosef.domain.customer.Customer;
+import com.example.iroribankjosef.domain.user.customer.Customer;
 import com.example.iroribankjosef.service.customer.CustomerService;
 import jakarta.validation.Valid;
 import jdk.jfr.Description;
-import mapper.CustomerMapper;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
 
-@RequestMapping
 @RestController
+@RequestMapping("/api/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -33,9 +31,8 @@ public class CustomerController {
     }
 
 
-    @PostMapping(value = "/customers")
+    @PostMapping
     @Description("Creates a new customer")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CustomerRequest customerRequest) {
         Customer savedCustomer = customerService.createCustomer(customerRequest);
         CustomerResponse response = CustomerMapper.toResponse(savedCustomer);
@@ -44,28 +41,29 @@ public class CustomerController {
 
     }
 
-    @GetMapping(value = "/customers")
+    @GetMapping
     @Description("Shows all customers")
     @ResponseStatus(HttpStatus.OK)
     public List<CustomerResponse> getAllCustomers(){
-        return customerService.getAllCustomers().stream().map(CustomerMapper::toResponse).toList();
+        return customerService.getAllCustomers().stream().filter(Objects::nonNull).map(CustomerMapper::toResponse).toList();
 
     }
 
-    @GetMapping(value = "/customers/{id}")
+    @GetMapping(value = "{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable UUID id){
-        return customerService.getCustomerById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable Long id){
+        return ResponseEntity.of(customerService.getCustomerById(id));
+
     }
 
 
 
-    @DeleteMapping(value="/customers/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> deleteCustomer(@PathVariable UUID id){
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
-        return ResponseEntity.ok("Customer deleted successfully");
+        return ResponseEntity.noContent().build();
     }
+
 
 
 
