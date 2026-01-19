@@ -1,11 +1,12 @@
 spring:
     application:
-        name=irori-bank-josef
+        name: irori-bank-josef
 
     datasource:
-        url= jdbc:postgresql://localhost:5432/irori
-        username= postgres
-        password= secret
+        url: jdbc:postgresql://localhost:5432/iroribank
+        username: josefhabil
+        password: ""
+
     jpa:
         hibernate:
-                ddl-auto= update
+            ddl-auto: update

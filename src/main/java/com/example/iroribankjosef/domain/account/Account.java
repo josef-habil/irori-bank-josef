@@ -39,7 +39,6 @@ public class Account {
     public Account(String accountNumber, Customer customer) {
         this.accountNumber = accountNumber;
         this.customer = customer;
-
     }
 
     public UUID getId() {
