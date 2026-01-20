@@ -1,4 +1,4 @@
-package com.example.iroribankjosef.api.customer.dto;
+package com.example.iroribankjosef.api.controller.customer.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;

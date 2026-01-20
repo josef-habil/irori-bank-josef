@@ -31,13 +31,14 @@ public class Account {
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
     protected Account (){}
 
-    /*public Account(String accountNumber, Customer customer) {
-        this.accountNumber = accountNumber;
+    public Account(Customer customer, String accountNumber){
         this.customer = customer;
-    }*/
+        this.accountNumber = accountNumber;
+        this.createdAt = LocalDateTime.now();
+    }
+
 
     public Long getId() {
         return id;
@@ -63,28 +64,37 @@ public class Account {
         return createdAt;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public void setStatus(AccountStatus status) {
-        this.status = status;
-    }
 
     public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void deposit(BigDecimal amount) {
+        validateAmount(amount);
+        ensureActive();
+        this.balance = this.balance.add(amount);
+    }
+
+    public void withdraw(BigDecimal amount) {
+        validateAmount(amount);
+        ensureActive();
+
+        if (this.balance.compareTo(amount) < 0) {
+            throw new IllegalStateException("Insufficient funds");
+        }
+
+        this.balance = this.balance.subtract(amount);
+    }
+
+    private void validateAmount(BigDecimal amount) {
+        if (amount == null || amount.signum() <= 0) {
+            throw new IllegalArgumentException("Amount must be positive");
+        }
+    }
+
+    private void ensureActive() {
+        if (this.status != AccountStatus.ACTIVE) {
+            throw new IllegalStateException("Account is not active");
+        }
     }
 
 }

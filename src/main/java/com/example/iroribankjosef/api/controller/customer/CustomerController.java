@@ -1,8 +1,8 @@
-package com.example.iroribankjosef.api.customer;
+package com.example.iroribankjosef.api.controller.customer;
 
 
-import com.example.iroribankjosef.api.customer.dto.CustomerRequest;
-import com.example.iroribankjosef.api.customer.dto.CustomerResponse;
+import com.example.iroribankjosef.api.controller.customer.dto.CustomerRequest;
+import com.example.iroribankjosef.api.controller.customer.dto.CustomerResponse;
 import com.example.iroribankjosef.domain.user.customer.Customer;
 import com.example.iroribankjosef.service.customer.CustomerService;
 import jakarta.validation.Valid;

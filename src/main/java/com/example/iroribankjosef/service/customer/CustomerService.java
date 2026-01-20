@@ -1,9 +1,9 @@
 package com.example.iroribankjosef.service.customer;
 
-import com.example.iroribankjosef.api.customer.CustomerMapper;
-import com.example.iroribankjosef.api.customer.dto.CustomerRequest;
+import com.example.iroribankjosef.api.controller.customer.CustomerMapper;
+import com.example.iroribankjosef.api.controller.customer.dto.CustomerRequest;
 
-import com.example.iroribankjosef.api.customer.dto.CustomerResponse;
+import com.example.iroribankjosef.api.controller.customer.dto.CustomerResponse;
 import com.example.iroribankjosef.domain.user.customer.Customer;
 import com.example.iroribankjosef.persistence.customer.CustomerRepository;
 import jakarta.transaction.Transactional;
@@ -16,14 +16,14 @@ import java.util.Optional;
 @Transactional
 public class CustomerService {
 
-    private final CustomerRepository repo;
+    private final CustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepository repo) {
-        this.repo = repo;
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     public Customer createCustomer(CustomerRequest customerRequest){
-        repo.findByEmail(customerRequest.getEmail()).ifPresent(existing -> {
+        customerRepository.findByEmail(customerRequest.getEmail()).ifPresent(existing -> {
             throw new IllegalArgumentException("Email already exists: " + customerRequest.getEmail());
         });
 
@@ -33,26 +33,26 @@ public class CustomerService {
         customer.setCustomerNumber(generateCustomerNumber());
         customer.setPasswordHash("TEMP");
 
-        return repo.save(customer);
+        return customerRepository.save(customer);
 
     }
 
 
     public List<Customer> getAllCustomers(){
-        return repo.findAll().stream().toList();
+        return customerRepository.findAll().stream().toList();
     }
 
     @Transactional
     public void deleteCustomer(Long  customerId) {
-        Customer customer = repo.findById(customerId)
+        Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() ->
                         new IllegalArgumentException("Customer not found: " + customerId)
                 );
-        repo.delete(customer);
+        customerRepository.delete(customer);
     }
 
     public Optional<CustomerResponse> getCustomerById(Long id){
-        return repo.findById(id).map(CustomerMapper::toResponse);
+        return customerRepository.findById(id).map(CustomerMapper::toResponse);
     }
 
     private String generateCustomerNumber() {
@@ -75,7 +75,7 @@ public class CustomerService {
 
         customer.addAccount(account);
 
-        return repo.save(customer);
+        return customerRepository.save(customer);
 
     }*/
 
