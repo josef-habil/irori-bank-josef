@@ -85,8 +85,33 @@ public class Account {
         this.balance = this.balance.subtract(amount);
     }
 
+    public void freeze() {
+        if (this.status == AccountStatus.CLOSED) {
+            throw new IllegalStateException("Cannot freeze a closed account");
+        }
+        this.status = AccountStatus.FROZEN;
+    }
+
+    public void activate() {
+        if (this.status == AccountStatus.CLOSED) {
+            throw new IllegalStateException("Cannot activate a closed account");
+        }
+        this.status = AccountStatus.ACTIVE;
+    }
+
+    public void close() {
+        if (status == AccountStatus.CLOSED) {
+            throw new IllegalStateException("Account already closed");
+        }
+        if (balance.signum() != 0) {
+            throw new IllegalStateException("Account balance must be zero to close");
+        }
+        this.status = AccountStatus.CLOSED;
+    }
+
+
     private void validateAmount(BigDecimal amount) {
-        if (amount == null || amount.signum() <= 0) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Amount must be positive");
         }
     }
@@ -96,5 +121,8 @@ public class Account {
             throw new IllegalStateException("Account is not active");
         }
     }
+
+
+
 
 }

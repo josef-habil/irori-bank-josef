@@ -75,7 +75,37 @@ public class AccountService {
         return accountRepository.findByCustomerId(customerId);
     }
 
+    @Transactional
+    public Account freezeAccount(Long accountId) {
+        Account account = findAccount(accountId);
+        account.freeze();
+        return account;
+    }
+
+    @Transactional
+    public Account activateAccount(Long accountId) {
+        Account account = findAccount(accountId);
+        account.activate();
+        return account;
+    }
+
+    @Transactional
+    public Account closeAccount(Long accountId) {
+        Account account = findAccount(accountId);
+        account.close();
+        return account;
+    }
+
+
     private String generateAccountNumber() {
         return "ACC-" + System.currentTimeMillis();
     }
+
+    private Account findAccount(Long accountId) {
+        return accountRepository.findById(accountId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Account not found: " + accountId)
+                );
+    }
+
 }
