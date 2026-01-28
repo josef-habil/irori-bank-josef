@@ -1,6 +1,6 @@
 package com.example.iroribankjosef.api.controller.customer;
 
-import com.example.iroribankjosef.api.customer.dto.AccountSummaryResponse;
+import com.example.iroribankjosef.api.controller.customer.dto.AccountSummaryResponse;
 import com.example.iroribankjosef.api.controller.customer.dto.CustomerResponse;
 import com.example.iroribankjosef.domain.user.customer.Customer;
 
